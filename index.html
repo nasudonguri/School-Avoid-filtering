@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name=”viewport” content=”width=device-width,initial-scale=1″>
 <style>
 *{
 background-color:black;
@@ -37,49 +42,32 @@ color:rgba(255, 255, 255, 0.15);
 }
 </style>
 <title>授業一覧</title>
+</head>
+</body>
 <p>YouTubeを見る</p>
-<form onsubmit="go();return false;">
-<input type="text" placeholder="url" autofocus>
-<input type="submit" value="OK">
-</form>
-<br><a href="#">見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a>
-<br><iframe width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+<input type="text" placeholder="url" id="yt_url" autofocus>
+<p><a id="yt_url">見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+<iframe id ="yt_watch" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
 <p>フィルタリングを回避するサイト</p>
-<form onsubmit="goi();return false;">
-<input type="text" placeholder="url" autofocus>
-<input type="submit" value="OK">
-</form>
-<br><a href="#">Googleのキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a>
-<br><a href="#">Waybackmachine(archive.org)のキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a>
-<br><a href="#">上のリンクでうまく行かなかった場合、Waybackmachine(archive.org)にサイトを保存(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a>
-<br><a href="chrome://settings/clearBrowserData">履歴削除(このリンクのURLをコピーし、新しいタブで開いてください。)</a>
+<input type="text" placeholder="url" id="filter_url" autofocus>
+<p><a id="filter_google">Googleのキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+<p><a id="filter_wayback">Waybackmachine(archive.org)のキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+<p><a id="filter_save">上のリンクでうまく行かなかった場合、Waybackmachine(archive.org)にサイトを保存(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+<p><a href="chrome://settings/clearBrowserData">履歴削除(このリンクのURLをコピーし、新しいタブで開いてください。)</a></p>
 <script>
-var yid = '';
 function emo(url){
 window.open(url, '_blank');
 }
-function go(){
-try{
-url = new URL(decodeURIComponent(document.getElementsByTagName('input')[0].value));
-if(url.hostname == 'www.google.com'){
-url　= new URL(url.searchParams.get('url'));
-}
-if(url.hostname == 'www.youtube.com'){
-yid = url.searchParams.get('v');
-}else{
-yid = url.pathname;
-}
-document.getElementsByTagName('a')[0].href = `data:text/html,<meta chrset="UTF-8"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${yid}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe><a href="https://www.youtube-nocookie.com/embed/${yid}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1">こちらでも開けます。</a>`;
-document.getElementsByTagName('iframe')[0].src = 'https://www.youtube-nocookie.com/embed/'+yid+'?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1';
-}catch(e){
-alert(e.message+'\n発生場所:'+e.lineNumber);
-}
+()=>{
+let id = decodeURIComponent(document.getElementById('yt_url').value);
+document.getElementById('yt_url').href = `data:text/html,<meta chrset="UTF-8"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe><a href="https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1">こちらでも開けます。</a>`;
+document.getElementById('yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
 return false;
 }
 function goi(){
-document.getElementsByTagName('a')[1].href = 'https://webcache.googleusercontent.com/search?q=cache:'+document.getElementsByTagName('input')[2].value;
-document.getElementsByTagName('a')[2].href = 'https://web.archive.org/web/*/'+document.getElementsByTagName('input')[2].value;
-document.getElementsByTagName('a')[3].href = 'https://web.archive.org/save'+document.getElementsByTagName('input')[2].value;
+document.getElementById('filter_google').href = 'https://webcache.googleusercontent.com/search?q=cache:'+document.getElementsByTagName('input')[2].value;
+document.getElementById('filter_wayback').href = 'https://web.archive.org/web/*/'+document.getElementsByTagName('input')[2].value;
+document.getElementById('filter_save').href = 'https://web.archive.org/save'+document.getElementsByTagName('input')[2].value;
 }
 document.addEventListener('keydown', function(e){
 if(e.shiftKey && e.keyCode == 90){
@@ -88,3 +76,5 @@ emo('https://loilonote.app/_/');
 }
 });
 </script>
+</body>
+</html>
