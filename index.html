@@ -30,8 +30,8 @@
       opacity: 0;
     }
     
-    input[type="text"] {
-      width: 80vw;
+    input[type="text"][type="url"] {
+      width: 10vw;
       height: 3vw;
       font-size: 2vw;
       border: none;
@@ -67,14 +67,14 @@
   }
 
   document.querySelector('#yt_id').oninput = () => {
-    let id = decodeURIComponent(this.value);
+    let id = decodeURIComponent(document.querySelector('#yt_id').value);
     document.querySelector('#yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
     document.querySelector('#yt_dl').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
     return false;
   }
   
   document.querySelector('#filter_url').oninput = () => {
-    let url = this.value;
+    let url = document.querySelector('#filter_url').value;
     document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
     document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
     document.querySelector('#filter_save').href = `javascript:go('https://web.archive.org/save/${url}')`;
