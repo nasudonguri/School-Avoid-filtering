@@ -66,14 +66,14 @@
     window.open(url, '_blank');
   }
 
-  document.querySelector('#yt_id').onchange = () => {
+  document.querySelector('#yt_id').oninput = () => {
     let id = decodeURIComponent(this.value);
     document.querySelector('#yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
     document.querySelector('#yt_dl').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
     return false;
   }
   
-  document.querySelector('#filter_url').onchange = () {
+  document.querySelector('#filter_url').oninput = () {
     let url = this.value;
     document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
     document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
