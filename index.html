@@ -50,33 +50,39 @@
   <title>授業一覧</title>
 </head>
 </body>
-<p>YouTubeを見る</p> <input type="text" placeholder="url" id="yt_url" autofocus>
-<p><a id="yt_url">見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p> <iframe id="yt_watch" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-<p>フィルタリングを回避するサイト</p> <input type="text" placeholder="url" id="filter_url" autofocus>
+<p>YouTubeを見る</p>
+<label for="yt_id">https://www.youtube.com/watch/<input type="text" placeholder="url" id="yt_id" autofocus></label>
+<iframe id="yt_watch" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+<p><a id="yt_dl">ダウンロード</a></p>
+<p>フィルタリングを回避するサイト</p>
+<input type="url" placeholder="url" id="filter_url" autofocus>
 <p><a id="filter_google">Googleのキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
 <p><a id="filter_wayback">Waybackmachine(archive.org)のキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
 <p><a id="filter_save">上のリンクでうまく行かなかった場合、Waybackmachine(archive.org)にサイトを保存(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+<p><a href="https://securl.nu/">上のリンクでうまく行かなかった場合、Securl</a></p>
 <p><a href="chrome://settings/clearBrowserData">履歴削除(このリンクのURLをコピーし、新しいタブで開いてください。)</a></p>
 <script>
-  function emo(url) {
+  const go = url => {
     window.open(url, '_blank');
   }
-  () => {
-    let id = decodeURIComponent(document.getElementById('yt_url').value);
-    document.getElementById('yt_url').href = `data:text/html,<meta chrset="UTF-8"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe><a href="https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1">こちらでも開けます。</a>`;
-    document.getElementById('yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
+
+  document.querySelector('#yt_id').onchange = () => {
+    let id = decodeURIComponent(this.value);
+    document.querySelector('#yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
+    document.querySelector('#yt_dl').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
     return false;
   }
   
-  function goi() {
-    document.getElementById('filter_google').href = 'https://webcache.googleusercontent.com/search?q=cache:' + document.getElementsByTagName('input')[2].value;
-    document.getElementById('filter_wayback').href = 'https://web.archive.org/web/*/' + document.getElementsByTagName('input')[2].value;
-    document.getElementById('filter_save').href = 'https://web.archive.org/save' + document.getElementsByTagName('input')[2].value;
+  document.querySelector('#filter_url').onchange = () {
+    let url = this.value;
+    document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
+    document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
+    document.querySelector('#filter_save').href = `javascript:go('https://web.archive.org/save/${url}')`;
   }
   document.addEventListener('keydown', function (e) {
-    if (e.shiftKey && e.keyCode == 90) {
+    if (e.shiftKey) {
       e.preventDefault();
-      emo('https://loilonote.app/_/');
+      go('https://loilonote.app/_/');
     }
   });
 </script>
