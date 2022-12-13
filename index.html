@@ -73,7 +73,7 @@
     return false;
   }
   
-  document.querySelector('#filter_url').oninput = () {
+  document.querySelector('#filter_url').oninput = () => {
     let url = this.value;
     document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
     document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
