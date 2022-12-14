@@ -32,9 +32,9 @@
       opacity: 0;
     }
     
-    input[type="text"][type="url"] {
-      width: 10vw;
-      height: 3vw;
+    input[type="url"] {
+      width: 70vw;
+      height: 50px;
       font-size: 2vw;
       border: none;
     }
@@ -52,34 +52,55 @@
   <title>授業一覧</title>
 </head>
 </body>
-<p>YouTubeを見る</p>
-<label for="yt_id">https://www.youtube.com/watch?v=<input type="text" placeholder="ID" id="yt_id" autofocus></label>
-<iframe id="yt_watch" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-<p><a id="yt_dl">ダウンロード</a></p>
-<p>フィルタリングを回避するサイト</p>
-<input type="url" placeholder="URL" id="filter_url" autofocus>
-<p><a id="filter_google">Googleのキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
-<p><a id="filter_wayback">Waybackmachine(archive.org)のキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
-<p><a id="filter_save">上のリンクでうまく行かなかった場合、Waybackmachine(archive.org)にサイトを保存(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
-<p><a href="https://securl.nu/" target="_blank">上のリンクでうまく行かなかった場合、Securl</a></p>
+<label for="url">URL:<input type="url" placeholder="URL" id="url" autofocus></label>
+<div id="yt">
+  <iframe id="yt_watch" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+  <p><a id="yt_dl">ダウンロード</a></p>
+</div>
+<div id="twitter">
+  <p><a id="twitter">Twitter</a></p>
+</div>
+<div id="insta">
+  <p><a id="insta">Instagram</a></p>
+</div>
+<div id="filter">
+  <p><a id="filter_google">Googleのキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+  <p><a id="filter_wayback">Waybackmachine(archive.org)のキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+  <p><a id="filter_save">上のリンクでうまく行かなかった場合、Waybackmachine(archive.org)にサイトを保存(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
+</div>
+<ul>
+  <li><a href="https://securl.nu/" target="_blank">Securl</a></li>
+  <li><a href="https://www.activetk.jp/tools/nextip" target="_blank">Activetk NextIP</a></li>
+</ul>
 <p><a href="chrome://settings/clearBrowserData">履歴削除(このリンクのURLをコピーし、新しいタブで開いてください。)</a></p>
 <script>
   const go = url => {
     window.open(url, '_blank');
   }
 
-  document.querySelector('#yt_id').oninput = () => {
-    let id = decodeURIComponent(document.querySelector('#yt_id').value);
-    document.querySelector('#yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&playlist=${id}&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
-    document.querySelector('#yt_dl').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
-    return false;
-  }
-  
-  document.querySelector('#filter_url').oninput = () => {
-    let url = document.querySelector('#filter_url').value;
-    document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
-    document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
-    document.querySelector('#filter_save').href = `javascript:go('https://web.archive.org/save/${url}')`;
+  const urlmatch = (url,domain,path='') => (
+    url.host.indexOf(domain) != -1
+    && url.pathname == path
+  )
+
+  document.querySelector('#url').onchange = () => {
+    let url = new URL(document.querySelector('#url').value);
+
+    if(urlmatch(url, 'google.com', 'search')) url = new URL(url.searchParams.get('url'));
+    
+    if(urlmatch(url, 'youtube.com', 'watch')){
+      let id = decodeURIComponent(url.searchParams.get('v'));
+      document.querySelector('#yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&playlist=${id}&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
+      document.querySelector('#yt_dl').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
+    
+      if(urlmatch(url, 'twitter.com', 'watch')){
+        satisfies
+
+      }else{
+      document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
+      document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
+      document.querySelector('#filter_save').href = `javascript:go('https://web.archive.org/save/${url}')`;
+    }
   }
   document.addEventListener('keydown', function (e) {
     if (e.shiftKey) {
