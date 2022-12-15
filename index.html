@@ -72,6 +72,7 @@
       input.value = i[0];
       form.appendChild(input);
     }
+    form.submit();
   }
 
   const urlmatch = (url, domain, path = '') => (
@@ -97,7 +98,7 @@
       document.querySelector('#iframe').src = `https://imginn.com${path}`;
 
     } else {
-      fetch(
+      /*fetch(
         'https://securl.nu/jx/get_page_jx.php',
         'post',
         {
@@ -112,6 +113,7 @@
         res['img']
       )
       document.querySelector('#iframe').src = ;
+      */
       document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
       document.querySelector('#filter_nextip').href = `javascript:go('https://www.activetk.jp/tools/nextip',[['q','${url}']])`;
       document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
