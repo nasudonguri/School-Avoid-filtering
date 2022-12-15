@@ -45,11 +45,10 @@
   <title>授業一覧</title>
 </head>
 </body>
+<a href="https://github.com/Nasudonguri/School-Avoid-filtering">GitHub</a>
 <label for="url">URL:<input type="url" placeholder="URL" id="url" autofocus></label>
-<div id="yt">
-  <iframe id="iframe" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-  <p><a id="yt_dl">ダウンロード</a></p>
-</div>
+<iframe id="iframe" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+<p><a id="yt">YouTubeダウンロード</a></p>
 <div id="filter">
   <p><a id="filter_google">Googleのキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
   <p><a id="filter_wayback">Waybackmachine(archive.org)のキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
@@ -85,7 +84,7 @@
       document.querySelector('#iframe').src = `https://www.sotwe.com${path}`;
 
     }else if(urlmatch(url, 'instagram.com')){
-      document.querySelector('#iframe').href = `https://imginn.com${path}`;
+      document.querySelector('#iframe').src = `https://imginn.com${path}`;
     
     }else{
       document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
