@@ -19,30 +19,19 @@
       font-size: 2vw;
     }
     
-    iframe {
-      width: 100vw;
-    }
-    
-    iframe::before {
-      content: '';
-      position: absolute;
-      top: 0;
+    #iframe {
+      position: fixed;
       left: 0;
+      bottom: 0;
       width: 100vw;
-      opacity: 0;
+      height: 50vh;
     }
     
-    input[type="url"] {
+    #url {
       width: 70vw;
       height: 50px;
       font-size: 2vw;
       border: none;
-    }
-    
-    input[type="submit"] {
-      width: 10vw;
-      height: 5vw;
-      font-size: 4vw;
     }
     
     input::placeholder {
@@ -54,14 +43,8 @@
 </body>
 <label for="url">URL:<input type="url" placeholder="URL" id="url" autofocus></label>
 <div id="yt">
-  <iframe id="yt_watch" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+  <iframe id="iframe" width="800" height="600" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
   <p><a id="yt_dl">ダウンロード</a></p>
-</div>
-<div id="twitter">
-  <p><a id="twitter">Twitter</a></p>
-</div>
-<div id="insta">
-  <p><a id="insta">Instagram</a></p>
 </div>
 <div id="filter">
   <p><a id="filter_google">Googleのキャッシュを見る(下に表示されない場合、このリンクを右クリックして新しいタブで開いてください。)</a></p>
@@ -70,7 +53,7 @@
 </div>
 <ul>
   <li><a href="https://securl.nu/" target="_blank">Securl</a></li>
-  <li><a href="https://www.activetk.jp/tools/nextip" target="_blank">Activetk NextIP</a></li>
+  <li><a href="https://www.activetk.jp/tools/nextip" target="_blank">ActiveTk NextIP</a></li>
 </ul>
 <p><a href="chrome://settings/clearBrowserData">履歴削除(このリンクのURLをコピーし、新しいタブで開いてください。)</a></p>
 <script>
@@ -85,18 +68,22 @@
 
   document.querySelector('#url').onchange = () => {
     let url = new URL(document.querySelector('#url').value);
+    let path = url.pathname;
 
     if(urlmatch(url, 'google.com', 'search')) url = new URL(url.searchParams.get('url'));
     
     if(urlmatch(url, 'youtube.com', 'watch')){
       let id = decodeURIComponent(url.searchParams.get('v'));
-      document.querySelector('#yt_watch').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&playlist=${id}&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
+      document.querySelector('#iframe').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&playlist=${id}&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
       document.querySelector('#yt_dl').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
     
-      if(urlmatch(url, 'twitter.com', 'watch')){
-        satisfies
+    }else if(urlmatch(url, 'twitter.com', 'watch')){
+      document.querySelector('#iframe').src = `https://www.sotwe.com${path}`;
 
-      }else{
+    }if(urlmatch(url, 'instagram.com')){
+      document.querySelector('#iframe').href = `https://imginn.com${path}`;
+    
+    }else{
       document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
       document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
       document.querySelector('#filter_save').href = `javascript:go('https://web.archive.org/save/${url}')`;
