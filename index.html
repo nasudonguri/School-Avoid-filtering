@@ -67,8 +67,8 @@
 
   const urlmatch = (url,domain,path='') => (
     url.host.indexOf(domain) != -1
-    && url.pathname == path
-  )
+    && url.pathname.indexOf(path) != -1
+  );
 
   document.querySelector('#url').onchange = () => {
     let url = new URL(document.querySelector('#url').value);
