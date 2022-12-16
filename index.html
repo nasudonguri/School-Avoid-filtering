@@ -62,7 +62,7 @@
 <script>
   const go = (url,post=[]) => {
     let form = document.createElement('form');
-    form.method = 'post';
+    form.method = 'POST';
     form.action = url;
     form.target = '_blank';
     for(var i in post){
@@ -74,6 +74,7 @@
     }
     document.body.appendChild(form);
     form.submit();
+    form.remove();
   }
 
   const urlmatch = (url, domain, path = '') => (
