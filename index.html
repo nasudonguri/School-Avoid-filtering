@@ -61,7 +61,6 @@
 <p><a href="chrome://settings/clearBrowserData">履歴削除(このリンクのURLをコピーし、新しいタブで開いてください。)</a></p>
 <script>
   const go = (url,post=[]) => {
-    try{
     let form = document.createElement('form');
     form.method = 'post';
     form.action = url;
@@ -73,10 +72,8 @@
       input.value = i[0];
       form.appendChild(input);
     }
+    document.body.appendChild(form);
     form.submit();
-  }catch(e){
-alert(e.message);
-  }
   }
 
   const urlmatch = (url, domain, path = '') => (
