@@ -66,12 +66,13 @@
     form.method = 'POST';
     form.action = url;
     form.target = '_blank';
-    for (var i in post) {
-      i.push('');
+    for (let i in post) {
+      let array = post[i];
+      array.push('');
       var input = document.createElement('input');
       input.type = 'hidden';
-      input.name = i[0];
-      input.value = i[1];
+      input.name = array[0];
+      input.value = array[1];
       form.appendChild(input);
     }
     document.body.appendChild(form);
