@@ -116,7 +116,7 @@
       document.querySelector('#iframe').src = ;
       */
       document.querySelector('#filter_google').href = `javascript:go('https://webcache.googleusercontent.com/search?q=cache:${url}')`;
-      document.querySelector('#filter_nextip').href = `javascript:go('https://www.activetk.jp/tools/nextip',[['q','${url}']])`;
+      document.querySelector('#filter_nextip').href = `javascript:go('https://www.activetk.jp/tools/nextip',[['q','${url}']['htt','none']['mode','html']['js','true']['outr','true']])`;
       document.querySelector('#filter_wayback').href = `javascript:go('https://web.archive.org/web/*/${url}')`;
       document.querySelector('#filter_save').href = `javascript:go('https://web.archive.org/save/${url}')`;
     }
