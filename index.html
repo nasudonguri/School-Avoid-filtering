@@ -66,7 +66,7 @@
     form.action = url;
     form.target = '_blank';
     for(let i in post){
-      let input = document.createElement('input');
+      var input = document.createElement('input');
       input.type = 'hidden';
       input.name = i[1];
       input.value = i[0];
