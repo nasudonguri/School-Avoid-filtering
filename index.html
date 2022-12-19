@@ -61,23 +61,31 @@
 </ul>
 <p><a href="chrome://settings/clearBrowserData">履歴削除(このリンクのURLをコピーし、新しいタブで開いてください。)</a></p>
 <script>
-  const go = (url, post = []) => {
-    let form = document.createElement('form');
-    form.method = 'POST';
-    form.action = url;
-    form.target = '_blank';
-    for (let i in post) {
-      let array = post[i];
-      array.push('');
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = array[0];
-      input.value = array[1];
-      form.appendChild(input);
+  const go = (url, post) => {
+    if (post != undefined) {
+      let form = document.createElement('form');
+      form.method = 'POST';
+      form.action = url;
+      form.target = '_blank';
+      for (let i in post) {
+        let array = post[i];
+        array.push('');
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = array[0];
+        input.value = array[1];
+        form.appendChild(input);
+      }
+      document.body.appendChild(form);
+      form.submit();
+      form.remove();
+    }else{
+      let a = document.createElement('a');
+      a.target = '_blank';
+      a.href = url;
+      a.click();
+      a.remove();
     }
-    document.body.appendChild(form);
-    form.submit();
-    form.remove();
   }
 
   const urlmatch = (url, domain, path = '') => (
@@ -87,20 +95,30 @@
 
   document.querySelector('#url').onchange = () => {
     let url = new URL(document.querySelector('#url').value);
-    let path = url.pathname;
+    let params = url.searchParams;
+    let path = url.pathname.slice(1);
 
-    if (urlmatch(url, 'google.com', 'search')) url = new URL(url.searchParams.get('url'));
+    if (urlmatch(url, 'google.com', 'search')) url = new URL(params.get('url'));
 
     if (urlmatch(url, 'youtube.com', 'watch')) {
-      let id = decodeURIComponent(url.searchParams.get('v'));
+      let id = decodeURIComponent(params.get('v'));
       document.querySelector('#iframe').src = `https://www.youtube-nocookie.com/embed/${id}?loop=1&playlist=${id}&autoplay=1&rel=0&showinfo=0&modestbranding=1&playsinline=1`;
-      document.querySelector('#yt_dl').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
+      document.querySelector('#yt').href = `javascript:go('https://www.y2mate.com/jp/youtube/${id}')`;
 
-    } else if (urlmatch(url, 'twitter.com')) {
-      document.querySelector('#iframe').src = `https://www.sotwe.com${path}`;
+    } else if (urlmatch(url, 'twitter.com') && path.split(/.\/./).length == 1) {
+        document.querySelector('#iframe').src = `https://www.sotwe.com/${path}`;
+
+    } else if (urlmatch(url, 'twitter.com', 'search')) {
+      document.querySelector('#iframe').src = `https://www.sotwe.com/search/${params.get('q')}`;
+
+    } else if (urlmatch(url, 'twitter.com', 'hashtag')) {
+      document.querySelector('#iframe').src = `https://www.sotwe.com/${path}`;
+
+    } else if (urlmatch(url, 'twitter.com', 'status')) {
+      document.querySelector('#iframe').src = `https://www.sotwe.com/tweet/${path.split('/')[2]}`;
 
     } else if (urlmatch(url, 'instagram.com')) {
-      document.querySelector('#iframe').src = `https://imginn.com${path}`;
+      document.querySelector('#iframe').src = `https://imginn.com/${path}`;
 
     } else {
       /*fetch(
