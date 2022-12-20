@@ -153,12 +153,12 @@
       document.querySelector('#filter_save').href = `javascript:go('https://web.archive.org/save/${url}')`;
     }
   }
-  document.addEventListener('keydown', function (e) {
+  document.onkeydown = e => {
     if (e.altKey) {
       e.preventDefault();
       go('https://loilonote.app/_/');
     }
-  });
+  };
 </script>
 </body>
 
