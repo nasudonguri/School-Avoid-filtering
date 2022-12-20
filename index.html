@@ -101,7 +101,7 @@
     for(let elem in document.querySelectorAll('#filter, #yt')){
       elem.classList.add('hidden');
     }
-
+    alert();
     let url = new URL(document.querySelector('#url').value);
     let params = url.searchParams;
     let path = url.pathname.slice(1);
