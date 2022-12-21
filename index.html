@@ -98,8 +98,9 @@
   );
 
   document.querySelector('#url').onchange = () => {
-    for(let elem in document.querySelectorAll('#filter, #yt')){
-      elem.classList.add('hidden');
+    let elem = document.querySelectorAll('#filter, #yt');
+    for(let i = 0;i < elem.length;i++){
+      elem[i].classList.add('hidden');
     }
     let url = new URL(document.querySelector('#url').value);
     let params = url.searchParams;
